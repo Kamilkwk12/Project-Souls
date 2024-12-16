@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
@@ -13,14 +14,22 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D _rb;
     CapsuleCollider2D _playerCollider;
     CircleCollider2D _rollCollider;
+    BoxCollider2D _boxCollider;
     SpriteRenderer _spriteRenderer;
     Animator _animator;
+    List<Collider2D> results = new List<Collider2D>();
 
 
     InputAction _moveAction;
     InputAction _jumpAction;
     InputAction _rollAction;
     InputAction _attackAction;
+
+
+    //new input system 
+
+    PlayerInput _playerInput;
+
 
     Vector2 _lastMoveValue;
     int _dodgeCount = 0;
@@ -42,6 +51,7 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _animator = GetComponent<Animator>();
 
+        _boxCollider = GetComponent <BoxCollider2D>();
 
         _moveAction = GetComponent<PlayerInput>().actions.FindAction("Move");
         _jumpAction = GetComponent<PlayerInput>().actions.FindAction("Jump");
@@ -51,12 +61,15 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        _isGrounded = IsPlayerGrounded();
+
         Vector2 _moveValue = _moveAction.ReadValue<Vector2>();
         float _jumpValue = _jumpAction.ReadValue<float>();
         float _rollValue = _rollAction.ReadValue<float>();
-        
+
         //flipping character
-        if (_moveValue == new Vector2(1, 0)) {
+        if (_moveValue == new Vector2(1, 0))
+        {
             _spriteRenderer.flipX = false;
             _playerCollider.offset = new Vector2(0.02832752f, _playerCollider.offset.y);
         }
@@ -67,21 +80,22 @@ public class PlayerController : MonoBehaviour
         }
 
         //left-right movement
-        if (_moveValue != new Vector2(0, 0) && _canMove) {
+        if (_moveValue != new Vector2(0, 0) && _canMove)
+        {
             _animator.SetBool("isRunning", true);
             _rb.linearVelocity = new Vector2(_moveValue.x * _moveSpeed, _rb.linearVelocityY);
-        } else {
+        }
+        else
+        {
             _animator.SetBool("isRunning", false);
         }
 
         //jump
-        if (_isGrounded && _jumpValue != 0)
-        {
-            _rb.linearVelocity = new Vector2(_rb.linearVelocityX, _jumpForce);
-        }
+
 
         //roll 
-        if (_isGrounded && _animator.GetBool("isRunning") && _rollValue != 0 && _dodgeCount == 0) {
+        if (_isGrounded && _animator.GetBool("isRunning") && _rollValue != 0 && _dodgeCount == 0)
+        {
             _animator.SetBool("isRolling", true);
             _lastMoveValue = _moveValue;
             _canMove = false;
@@ -95,7 +109,8 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocity = _lastMoveValue * _rollSpeed;
             _dodgeCount--;
-        } else
+        }
+        else
         {
             _playerCollider.enabled = true;
             _rollCollider.enabled = false;
@@ -134,7 +149,8 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (_comboTimer > 0) { 
+        if (_comboTimer > 0)
+        {
             _comboTimer--;
         }
 
@@ -145,6 +161,18 @@ public class PlayerController : MonoBehaviour
             _attackDuration = 35;
         }
 
+    }
+
+    private bool IsPlayerGrounded()
+    {
+        Physics2D.OverlapCollider(_boxCollider, results);
+        if (results.Count > 0)
+        {
+            Collider2D _groundGameObject = results.Where(ojb => ojb.gameObject.name == "Ground").SingleOrDefault();
+            Debug.Log(_groundGameObject);
+        }
+
+        return true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -165,4 +193,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void Awake()
+    {        
+        _playerInput = GetComponent<PlayerInput>();
+    }
+
+    private void OnEnable()
+    {
+        _playerInput.actions["Jump"].performed += context =>
+        {
+            Jump();
+        };
+    }
+
+    private void Jump()
+    {
+        Debug.Log("Jump");
+        if (_isGrounded)
+        {
+            _rb.linearVelocity = new Vector2(_rb.linearVelocityX, _jumpForce);
+        }
+    }
+
+     
 }
