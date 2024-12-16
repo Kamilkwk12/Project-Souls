@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
 
     PlayerInput _playerInput;
     InputAction _moveAction;
+    public bool isCharacterFlippedX;
 
     Vector2 _moveValue;
     Vector2 _lastMoveValue = new Vector2(0, 0);
@@ -60,19 +61,6 @@ public class PlayerController : MonoBehaviour
         };
     }
 
-    
-
-    private void TriggerLightAttack()
-    {
-        if(_isGrounded && _animator.GetBool("isRolling") == false)
-        {
-            Debug.Log("Light Attack");
-            _animator.SetBool("isAttacking", true);
-            _animator.SetBool("isRunning", false);
-            
-            _attackTimer = 60f;
-        }
-    }
 
     void Start()
     {
@@ -91,7 +79,12 @@ public class PlayerController : MonoBehaviour
         _isGrounded = IsPlayerGrounded();
         _moveValue = _moveAction.ReadValue<Vector2>();
 
-        MovementHandler();
+
+        if (_animator.GetBool("isRolling") == false && _animator.GetBool("isAttacking") == false)
+        {
+            MovementHandler();
+            IsCharacterFlipped();
+        }
 
         RollHandler();
 
@@ -103,46 +96,6 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isAttacking", false);
         }
-
-
-        //light-attack
-        //float _attackValue = _attackAction.ReadValue<float>();
-
-        //if (_isGrounded && _attackValue != 0 && _attackDuration == 0)
-        //{
-        //    _animator.SetBool("isAttacking", true);
-        //    _attacksInCombo++;
-        //    _comboTimer = 70;
-        //    _attackDuration = 50;
-        //}
-
-        //if (_attackDuration > 0)
-        //{
-        //    _canMove = false;
-        //    _attackDuration--;
-        //}
-        //else
-        //{
-        //    _canMove = true;
-        //    _animator.SetBool("isAttacking", false);
-
-        //    if (_animator.GetBool("Attack1") == true)
-        //    {
-        //        _animator.SetBool("Attack1", false);
-        //    }
-        //}
-
-        //if (_comboTimer > 0)
-        //{
-        //    _comboTimer--;
-        //}
-
-        //if (_comboTimer > 0 && _attackValue != 0 && _attackDuration == 0)
-        //{
-        //    _animator.SetBool("isAttacking", true);
-        //    _animator.SetBool("Attack1", true);
-        //    _attackDuration = 35;
-        //}
 
     }
 
@@ -167,7 +120,8 @@ public class PlayerController : MonoBehaviour
     private void MovementHandler()
     {
         //left-right movement
-        if (_moveValue != new Vector2(0, 0) && _animator.GetBool("isRolling") == false && _animator.GetBool("isAttacking") == false )
+        
+        if (_moveValue != new Vector2(0, 0))
         {
             _animator.SetBool("isRunning", true);
             _rb.linearVelocity = new Vector2(_moveValue.x * _moveSpeed, _rb.linearVelocityY);
@@ -176,18 +130,24 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("isRunning", false);
         }
+    }
 
-        //flipping character
+    public bool IsCharacterFlipped()
+    {
         if (_moveValue == new Vector2(1, 0))
         {
             _spriteRenderer.flipX = false;
             _playerCollider.offset = new Vector2(0.02832752f, _playerCollider.offset.y);
+            isCharacterFlippedX = false;
         }
         if (_moveValue == new Vector2(-1, 0))
         {
             _spriteRenderer.flipX = true;
             _playerCollider.offset = new Vector2(-0.03f, _playerCollider.offset.y);
+            isCharacterFlippedX = true;
         }
+
+        return isCharacterFlippedX;
     }
 
     private void Jump()
@@ -225,6 +185,18 @@ public class PlayerController : MonoBehaviour
             _playerCollider.enabled = true;
             _rollCollider.enabled = false;
             _animator.SetBool("isRolling", false);
+        }
+    }
+
+    private void TriggerLightAttack()
+    {
+        if (_isGrounded && _animator.GetBool("isRolling") == false)
+        {
+            Debug.Log("Light Attack");
+            _animator.SetBool("isAttacking", true);
+            _animator.SetBool("isRunning", false);
+
+            _attackTimer = 60f;
         }
     }
 }
