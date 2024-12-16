@@ -25,16 +25,17 @@ public class PlayerController : MonoBehaviour
     Vector2 _moveValue;
     Vector2 _lastMoveValue = new Vector2(0, 0);
 
-    //int _attackDuration = 0;
     //int _comboTimer = 0;
+
+    float _rollTimer;
+    float _attackTimer;
     //int _attacksInCombo = 0;
 
-    [SerializeField] float _rollTimer;
     [SerializeField] float _moveSpeed = 2f;
     [SerializeField] float _rollSpeed = 3f;
     [SerializeField] float _jumpForce = 10f;
-    [SerializeField] bool _isGrounded = false;
-    [SerializeField] bool _canMove = true;
+
+    bool _isGrounded = false;
 
     private void Awake()
     {
@@ -56,7 +57,6 @@ public class PlayerController : MonoBehaviour
         _playerInput.actions["Light Attack"].performed += context =>
         {
             TriggerLightAttack();
-            IsComboPerformed();
         };
     }
 
@@ -66,14 +66,12 @@ public class PlayerController : MonoBehaviour
     {
         if(_isGrounded && _animator.GetBool("isRolling") == false)
         {
+            Debug.Log("Light Attack");
             _animator.SetBool("isAttacking", true);
-            _canMove = false;
-
+            _animator.SetBool("isRunning", false);
+            
+            _attackTimer = 60f;
         }
-    }
-
-    private void IsComboPerformed()
-    {
     }
 
     void Start()
@@ -96,6 +94,15 @@ public class PlayerController : MonoBehaviour
         MovementHandler();
 
         RollHandler();
+
+        if (_attackTimer > 0)
+        {
+            _attackTimer--;
+        }
+        else
+        {
+            _animator.SetBool("isAttacking", false);
+        }
 
 
         //light-attack
@@ -160,7 +167,7 @@ public class PlayerController : MonoBehaviour
     private void MovementHandler()
     {
         //left-right movement
-        if (_moveValue != new Vector2(0, 0) && _canMove)
+        if (_moveValue != new Vector2(0, 0) && _animator.GetBool("isRolling") == false && _animator.GetBool("isAttacking") == false )
         {
             _animator.SetBool("isRunning", true);
             _rb.linearVelocity = new Vector2(_moveValue.x * _moveSpeed, _rb.linearVelocityY);
@@ -199,7 +206,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Roll");
             _animator.SetBool("isRolling", true);
             _lastMoveValue = _moveValue;
-            _canMove = false;
             _rollCollider.enabled = true;
             _playerCollider.enabled = false;
             _animator.SetBool("isJumping", false);
@@ -218,7 +224,6 @@ public class PlayerController : MonoBehaviour
         {
             _playerCollider.enabled = true;
             _rollCollider.enabled = false;
-            _canMove = true;
             _animator.SetBool("isRolling", false);
         }
     }
