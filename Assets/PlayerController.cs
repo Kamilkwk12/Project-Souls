@@ -106,7 +106,7 @@ public class PlayerController : MonoBehaviour
         Physics2D.OverlapCollider(_boxCollider, results);
         if (results.Count > 0)
         {
-            Collider2D _groundGameObject = results.Where(ojb => ojb.gameObject.name == "Ground").SingleOrDefault();
+            Collider2D _groundGameObject = results.Where(ojb => ojb.gameObject.CompareTag("Ground")).SingleOrDefault();
             _animator.SetBool("isJumping", false);
             return true;
         } else
@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("isAttacking", true);
             _animator.SetBool("isRunning", false);
 
-            _attackTimer = 60f;
+            _attackTimer = 50f;
         }
     }
 }

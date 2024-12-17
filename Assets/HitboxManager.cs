@@ -51,11 +51,16 @@ public class HitboxManager : MonoBehaviour
 
     private void OnTriggerEnter2D()
     {
-        Physics2D.OverlapCollider(_localCollider, results);
+        Physics2D.OverlapCollider(_localCollider.GetComponent<PolygonCollider2D>(), results);
         if (results.Count > 0) { 
             Debug.Log(results.Count);
             Debug.Log(results[0].gameObject.tag);
         }
+    }
+
+    private void OnTriggerExit2D()
+    {
+        results = new List<Collider2D>();
     }
 
     public void setHitBox(hitBoxes val)
