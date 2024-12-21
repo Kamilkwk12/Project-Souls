@@ -25,9 +25,5 @@ public class EnemyBehaviour : MonoBehaviour
             _animator.SetTrigger("Hit");
         }
     }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        _animator.ResetTrigger("Hit");
-    }
 
 }

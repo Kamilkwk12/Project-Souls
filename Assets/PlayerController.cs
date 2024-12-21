@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour
 
     PlayerInput _playerInput;
     InputAction _moveAction;
-    public bool isCharacterFlippedX;
 
     Vector2 _moveValue;
     Vector2 _lastMoveValue = new Vector2(0, 0);
@@ -86,7 +85,7 @@ public class PlayerController : MonoBehaviour
         if (_animator.GetBool("isRolling") == false && _animator.GetBool("isAttacking") == false)
         {
             MovementHandler();
-            IsCharacterFlipped();
+            CharacterFlip();
         }
 
         RollHandler();
@@ -126,22 +125,17 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool IsCharacterFlipped()
+    public void CharacterFlip()
     {
         if (_moveValue == new Vector2(1, 0))
         {
-            _spriteRenderer.flipX = false;
-            _playerCollider.offset = new Vector2(0.02832752f, _playerCollider.offset.y);
-            isCharacterFlippedX = false;
+            gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
         }
         if (_moveValue == new Vector2(-1, 0))
         {
-            _spriteRenderer.flipX = true;
-            _playerCollider.offset = new Vector2(-0.03f, _playerCollider.offset.y);
-            isCharacterFlippedX = true;
+            gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
         }
 
-        return isCharacterFlippedX;
     }
 
     private void Jump()
