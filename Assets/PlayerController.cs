@@ -26,10 +26,13 @@ public class PlayerController : MonoBehaviour
     Vector2 _moveValue;
     Vector2 _lastMoveValue = new Vector2(0, 0);
 
-    //int _comboTimer = 0;
 
+    public float RollDuration = 0.35f;
     float _rollTimer;
+    public float AttackDuration = 0.35f;
     float _attackTimer;
+
+    //int _comboTimer = 0;
     //int _attacksInCombo = 0;
 
     [SerializeField] float _moveSpeed = 2f;
@@ -87,19 +90,10 @@ public class PlayerController : MonoBehaviour
         }
 
         RollHandler();
-
-        if (_attackTimer > 0)
-        {
-            _attackTimer--;
-        }
-        else
-        {
-            _animator.SetBool("isAttacking", false);
-        }
+        LightAttackHandler();
 
     }
-
-
+    
 
     private bool IsPlayerGrounded()
     {
@@ -169,7 +163,7 @@ public class PlayerController : MonoBehaviour
             _rollCollider.enabled = true;
             _playerCollider.enabled = false;
             _animator.SetBool("isJumping", false);
-            _rollTimer = 45f;
+            _rollTimer = RollDuration;
         }
     }
 
@@ -178,7 +172,7 @@ public class PlayerController : MonoBehaviour
         if (_rollTimer > 0)
         {
             _rb.linearVelocity = _lastMoveValue * _rollSpeed;
-            _rollTimer--;
+            _rollTimer -= Time.deltaTime;
         }
         else
         {
@@ -196,7 +190,18 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("isAttacking", true);
             _animator.SetBool("isRunning", false);
 
-            _attackTimer = 50f;
+            _attackTimer = AttackDuration;
+        }
+    }
+    private void LightAttackHandler()
+    {
+        if (_attackTimer > 0)
+        {
+            _attackTimer -= Time.deltaTime;
+        }
+        else
+        {
+            _animator.SetBool("isAttacking", false);
         }
     }
 }

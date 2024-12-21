@@ -1570,9 +1570,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCharacterFlippedX: 0
+  RollDuration: 0.35
+  AttackDuration: 0.35
   _moveSpeed: 2
-  _rollSpeed: 3
-  _jumpForce: 7
+  _rollSpeed: 2.5
+  _jumpForce: 6
 --- !u!58 &1267933645
 CircleCollider2D:
   m_ObjectHideFlags: 0
