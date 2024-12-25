@@ -7,8 +7,7 @@ public class AttackState : StateMachineBehaviour
 
     bool wasEnemyHit = false;
 
-
-
+    EntityStatus status;
     //OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
@@ -33,6 +32,8 @@ public class AttackState : StateMachineBehaviour
             if (target.GetType() == typeof(CapsuleCollider2D))
             {
                 hitName = target.name;
+                EntityStatus targetStatus = target.GetComponent<EntityStatus>();
+                targetStatus.TakeDamage(20);
                 wasEnemyHit = true;
             }
         }
