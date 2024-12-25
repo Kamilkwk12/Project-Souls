@@ -43,10 +43,13 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
+        
     }
 
     private void OnEnable()
     {
+        _animator = GetComponent<Animator>();
+
         _playerInput.actions["Jump"].performed += context =>
         {
             Jump();
@@ -59,7 +62,10 @@ public class PlayerController : MonoBehaviour
 
         _playerInput.actions["Light Attack"].performed += context =>
         {
-            TriggerLightAttack();
+            _animator.SetTrigger("Attack");
+            _animator.SetBool("isRunning", false);
+            _animator.SetBool("isAttacking", true);
+
         };
     }
 
@@ -71,7 +77,6 @@ public class PlayerController : MonoBehaviour
         _rollCollider = GetComponent<CircleCollider2D>();
         _boxCollider = GetComponent <BoxCollider2D>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
-        _animator = GetComponent<Animator>();
 
         _moveAction = GetComponent<PlayerInput>().actions["Move"];
     }
@@ -89,7 +94,6 @@ public class PlayerController : MonoBehaviour
         }
 
         RollHandler();
-        LightAttackHandler();
 
     }
     
@@ -176,26 +180,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void TriggerLightAttack()
-    {
-        if (_isGrounded && _animator.GetBool("isRolling") == false)
-        {
-            Debug.Log("Light Attack");
-            _animator.SetBool("isAttacking", true);
-            _animator.SetBool("isRunning", false);
+    //private void TriggerLightAttack()
+    //{
+    //    if (_isGrounded && _animator.GetBool("isRolling") == false)
+    //    {
+    //        Debug.Log("Light Attack");
+    //        _animator.SetBool("isAttacking", true);
+    //        _animator.SetBool("isRunning", false);
+    //        _attackTimer = AttackDuration;
 
-            _attackTimer = AttackDuration;
-        }
-    }
-    private void LightAttackHandler()
-    {
-        if (_attackTimer > 0)
-        {
-            _attackTimer -= Time.deltaTime;
-        }
-        else
-        {
-            _animator.SetBool("isAttacking", false);
-        }
-    }
+    //    }
+    //}
+    //private void LightAttackHandler()
+    //{
+    //    if (_attackTimer > 0)
+    //    {
+    //        _attackTimer -= Time.deltaTime;
+    //    }
+    //    else
+    //    {
+    //        _animator.SetBool("isAttacking", false);
+    //    }
+    //}
 }

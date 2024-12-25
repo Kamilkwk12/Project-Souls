@@ -1,8 +1,5 @@
-using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
-
-using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class HitboxManager : MonoBehaviour
 {
@@ -27,7 +24,7 @@ public class HitboxManager : MonoBehaviour
         clear
     }
 
-    void Start()
+    void OnEnable()
     {
         _localCollider = gameObject.AddComponent<PolygonCollider2D>();
         _localCollider.isTrigger = true;
@@ -39,19 +36,6 @@ public class HitboxManager : MonoBehaviour
         _colliders = new PolygonCollider2D[] { frame1, frame2, frame3, frame4 };
     }
 
-    private void OnTriggerEnter2D()
-    {
-        Physics2D.OverlapCollider(_localCollider.GetComponent<PolygonCollider2D>(), results);
-        if (results.Count > 0) { 
-            Debug.Log(results.Count);
-            Debug.Log(results[0].gameObject.tag);
-        }
-    }
-
-    private void OnTriggerExit2D()
-    {
-        results = new List<Collider2D>();
-    }
 
     public void setHitBox(hitBoxes val)
     {
@@ -61,5 +45,10 @@ public class HitboxManager : MonoBehaviour
             return;
         } 
         _localCollider.pathCount = 0;
+    }
+
+    public void chceckHitbox()
+    {
+        Physics2D.OverlapCollider(_localCollider, results);
     }
 }
