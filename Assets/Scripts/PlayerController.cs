@@ -29,10 +29,6 @@ public class PlayerController : MonoBehaviour
     public float RollDuration = 0.35f;
     float _rollTimer;
     public float AttackDuration = 0.35f;
-    float _attackTimer;
-
-    //int _comboTimer = 0;
-    //int _attacksInCombo = 0;
 
     [SerializeField] float _moveSpeed = 2f;
     [SerializeField] float _rollSpeed = 3f;
@@ -179,27 +175,4 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("isRolling", false);
         }
     }
-
-    //private void TriggerLightAttack()
-    //{
-    //    if (_isGrounded && _animator.GetBool("isRolling") == false)
-    //    {
-    //        Debug.Log("Light Attack");
-    //        _animator.SetBool("isAttacking", true);
-    //        _animator.SetBool("isRunning", false);
-    //        _attackTimer = AttackDuration;
-
-    //    }
-    //}
-    //private void LightAttackHandler()
-    //{
-    //    if (_attackTimer > 0)
-    //    {
-    //        _attackTimer -= Time.deltaTime;
-    //    }
-    //    else
-    //    {
-    //        _animator.SetBool("isAttacking", false);
-    //    }
-    //}
 }

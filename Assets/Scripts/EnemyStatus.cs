@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EntityStatus : MonoBehaviour
+public class EnemyStatus : MonoBehaviour
 {
 
     [SerializeField] float _health;
@@ -10,9 +10,8 @@ public class EntityStatus : MonoBehaviour
     [SerializeField] Transform _healthbarValue;
     public GameObject healthBar;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
-    {
+    { 
         _health = _maxHealth;
         _animator = GetComponent<Animator>();
     }
@@ -21,6 +20,7 @@ public class EntityStatus : MonoBehaviour
     {
         if (_health - attackDmg >= 0) { 
             _health -= attackDmg;
+            _animator.SetTrigger("Hit");
         }
 
         if (_health - attackDmg < 0)
@@ -35,6 +35,7 @@ public class EntityStatus : MonoBehaviour
         healthBar.SetActive(false);
         GetComponent<CapsuleCollider2D>().enabled = false;
     }
+
 
     private void Update()
     {
