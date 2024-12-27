@@ -205,7 +205,7 @@ MonoBehaviour:
   m_MinValue: 0
   m_MaxValue: 200
   m_WholeNumbers: 1
-  m_Value: 200
+  m_Value: 161
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1081,6 +1081,7 @@ GameObject:
   - component: {fileID: 1267933646}
   - component: {fileID: 1267933641}
   - component: {fileID: 1267933644}
+  - component: {fileID: 1267933648}
   - component: {fileID: 1267933647}
   m_Layer: 0
   m_Name: Player
@@ -1288,6 +1289,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2986990b05a8bf4ca6fe3a91f06ff9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerStatus: {fileID: 0}
   RollDuration: 0.35
   AttackDuration: 0.35
   _moveSpeed: 2
@@ -1392,6 +1394,23 @@ MonoBehaviour:
   frame3: {fileID: 0}
   frame4: {fileID: 0}
   results: []
+--- !u!114 &1267933648
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1267933636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0290db2f8e7029e48916274674e08daa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 100
+  _maxStamina: 50
+  healthBar: {fileID: 158420022}
+  staminaBar: {fileID: 321518362}
+  _staminaCooldown: 2
 --- !u!1 &1681189395
 GameObject:
   m_ObjectHideFlags: 0

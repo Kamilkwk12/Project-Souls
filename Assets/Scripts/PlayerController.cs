@@ -1,21 +1,17 @@
-using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.IO;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
-using UnityEngine.UIElements;
+
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerStatus PlayerStatus;
 
     Rigidbody2D _rb;
     CapsuleCollider2D _playerCollider;
     CircleCollider2D _rollCollider;
     BoxCollider2D _boxCollider;
-    SpriteRenderer _spriteRenderer;
     Animator _animator;
     List<Collider2D> results = new List<Collider2D>();
 
@@ -39,29 +35,34 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _playerInput = GetComponent<PlayerInput>();
-        
     }
 
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
+        PlayerStatus = GetComponent<PlayerStatus>();
 
         _playerInput.actions["Jump"].performed += context =>
         {
+            PlayerStatus.TakeStamina(5);
             Jump();
+            PlayerStatus.DeactivateStaminaReset();
         };
 
         _playerInput.actions["Roll"].performed += context =>
         {
+            PlayerStatus.TakeStamina(10);
             RollTrigger();
+            PlayerStatus.DeactivateStaminaReset();
         };
 
         _playerInput.actions["Light Attack"].performed += context =>
         {
+            PlayerStatus.TakeStamina(15);
+            PlayerStatus.DeactivateStaminaReset();
             _animator.SetTrigger("Attack");
             _animator.SetBool("isRunning", false);
             _animator.SetBool("isAttacking", true);
-
         };
     }
 
@@ -72,7 +73,6 @@ public class PlayerController : MonoBehaviour
         _playerCollider = GetComponent<CapsuleCollider2D>();
         _rollCollider = GetComponent<CircleCollider2D>();
         _boxCollider = GetComponent <BoxCollider2D>();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _moveAction = GetComponent<PlayerInput>().actions["Move"];
     }

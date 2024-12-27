@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -25,12 +24,16 @@ public class EnemyAI : MonoBehaviour
     {
         _frames++;
 
-        if (_frames == 10)
+        if (_frames == 20)
         {
             _playerPosition = _player.transform.position;
             _distanceToPlayer = Vector3.Distance(_playerPosition, transform.position) * 100;
             _animator.SetFloat("playerDistance", _distanceToPlayer);
             _frames = 0;
+        }
+
+        if (_animator.GetCurrentAnimatorStateInfo(0).IsName("Opponent_LightAttack") == true) {
+            _animator.ResetTrigger("Hit");
         }
     }
 }
