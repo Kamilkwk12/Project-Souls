@@ -38,12 +38,21 @@ public class EnemyStatus : MonoBehaviour
         GetComponent<CapsuleCollider2D>().enabled = false;
     }
 
+    private void EnemyFlip()
+    {
+        if (transform.rotation.y != 0) {
+            return;
+        } 
+        healthBar.transform.rotation = Quaternion.Euler(0, 180, 0);
+    }
 
     private void Update()
     {
-
+        EnemyFlip();
         //Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).IsName("Opponent_LightAttack"));
 
         _healthbarValue.localScale = new Vector3(_health/_maxHealth, 1, 1);
     }
+
+
 }
