@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
         Physics2D.OverlapCollider(_boxCollider, results);
         if (results.Count > 0)
         {
-            Collider2D _groundGameObject = results.Where(ojb => ojb.gameObject.CompareTag("Ground")).SingleOrDefault();
+            //Collider2D _groundGameObject = results.Where(ojb => ojb.gameObject.CompareTag("Ground")).SingleOrDefault();
             _animator.SetBool("isJumping", false);
             return true;
         } else
