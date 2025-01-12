@@ -8,6 +8,7 @@ public class EnemyAI : MonoBehaviour
     int _frames = 0;
     float _distanceToPlayer;
 
+    public int AttackDamage = 10;
     void Start()
     {
         _animator = GetComponent<Animator>();

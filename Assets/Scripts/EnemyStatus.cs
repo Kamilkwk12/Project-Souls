@@ -1,3 +1,4 @@
+using System.Threading;
 using UnityEngine;
 
 public class EnemyStatus : MonoBehaviour
@@ -10,14 +11,30 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField] Transform _healthbarValue;
     public GameObject healthBar;
 
+    public bool CanBeHit = true;
+
     void Start()
     { 
         _health = _maxHealth;
         _animator = GetComponent<Animator>();
     }
 
+    
+    private void Update()
+    {
+        _healthbarValue.localScale = new Vector3(_health / _maxHealth, 1, 1);
+
+        EnemyFlip();
+
+    }
+
     public void TakeDamage(int attackDmg)
     {
+        if (!CanBeHit)
+        {
+            return;
+        }
+
         if (_health - attackDmg <= 0)
         {
             _health = 0;
@@ -25,11 +42,11 @@ public class EnemyStatus : MonoBehaviour
             return;
         }
 
-        if (_health - attackDmg > 0) { 
+        if (_health - attackDmg > 0)
+        {
             _health -= attackDmg;
             _animator.SetTrigger("Hit");
         }
-
     }
 
     public void Death()
@@ -40,19 +57,10 @@ public class EnemyStatus : MonoBehaviour
 
     private void EnemyFlip()
     {
-        if (transform.rotation.y != 0) {
+        if (transform.rotation.y != 0)
+        {
             return;
-        } 
+        }
         healthBar.transform.rotation = Quaternion.Euler(0, 180, 0);
     }
-
-    private void Update()
-    {
-        EnemyFlip();
-        //Debug.Log(_animator.GetCurrentAnimatorStateInfo(0).IsName("Opponent_LightAttack"));
-
-        _healthbarValue.localScale = new Vector3(_health/_maxHealth, 1, 1);
-    }
-
-
 }

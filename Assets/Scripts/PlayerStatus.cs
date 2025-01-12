@@ -9,6 +9,10 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] int _maxStamina = 50;
     int _stamina;
 
+    public int AttackDamage = 10;
+
+    Animator _animator;
+
     public Slider healthBar;
     public Slider staminaBar;
     float _staminaTimer = 0;
@@ -17,6 +21,7 @@ public class PlayerStatus : MonoBehaviour
 
     void Start()
     {
+        _animator = GetComponent<Animator>();
         _health = _maxHealth;
         _stamina = _maxStamina;
         healthBar.maxValue = _maxHealth;
@@ -49,6 +54,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void TakeDamage(int attackDmg)
     {
+        _animator.SetTrigger("Hurt");
         if (_health - attackDmg <= 0)
         {
             _health = 0;
@@ -59,6 +65,8 @@ public class PlayerStatus : MonoBehaviour
         {
             _health -= attackDmg;
         }
+
+        
     }
 
     public void TakeStamina(int cost)
