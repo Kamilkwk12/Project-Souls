@@ -586,6 +586,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
+  AttackDmg: 0
+  _distanceToAttack: 80
+  AttackNumber: 0
 --- !u!1 &321518360
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,7 +1514,7 @@ GameObject:
   - component: {fileID: 1563424261}
   m_Layer: 10
   m_Name: AttackTop_Hitbox
-  m_TagString: Untagged
+  m_TagString: Boss Attack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1589,7 +1592,7 @@ GameObject:
   - component: {fileID: 1638354923}
   m_Layer: 10
   m_Name: Combo_Hitbox
-  m_TagString: Untagged
+  m_TagString: Boss Combo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

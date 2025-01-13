@@ -25,6 +25,11 @@ public class BossStatus : MonoBehaviour
     void Update()
     {
         _healthBar.value = _health;
+
+        if (_health < _maxHealth / 2)
+        {
+            SecondStage = true;
+        }
     }
 
     public void TakeDamage(int damage) {
