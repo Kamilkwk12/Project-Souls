@@ -153,6 +153,7 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Roll");
             _animator.SetBool("isRolling", true);
+            gameObject.layer = 8;
             _lastMoveValue = _moveValue;
             _rollCollider.enabled = true;
             _playerCollider.enabled = false;
@@ -172,6 +173,7 @@ public class PlayerController : MonoBehaviour
         {
             _playerCollider.enabled = true;
             _rollCollider.enabled = false;
+            gameObject.layer = 7;
             _animator.SetBool("isRolling", false);
         }
     }

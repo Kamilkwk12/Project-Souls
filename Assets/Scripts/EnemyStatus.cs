@@ -8,6 +8,8 @@ public class EnemyStatus : MonoBehaviour
     [SerializeField] float _maxHealth = 100;
     Animator _animator;
 
+    public int AttackDamage = 10;
+
     [SerializeField] Transform _healthbarValue;
     public GameObject healthBar;
 

@@ -15,10 +15,9 @@ public class EnemyAttackState : StateMachineBehaviour
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-
         boxCollider = animator.gameObject.GetComponentInChildren<BoxCollider2D>();
         _playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
-        _attackDmg = animator.GetComponent<EnemyAI>().AttackDamage;
+        _attackDmg = animator.GetComponent<EnemyStatus>().AttackDamage;
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

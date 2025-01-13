@@ -9,7 +9,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] int _maxStamina = 50;
     int _stamina;
 
-    public int AttackDamage = 10;
+    public int AttackDamage = 15;
 
     Animator _animator;
 
