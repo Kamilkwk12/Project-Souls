@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,13 +14,13 @@ public class BossStatus : MonoBehaviour
     public bool SecondStage = false;
 
     public int AttackDamage = 25;
-
+    Animator _animator;
     void Start()
     {
         _health = _maxHealth;
         HealthBar.maxValue = _health;
         HealthBar.value = _health;
-
+        _animator = GetComponent<Animator>();
     }
 
     void Update()
@@ -30,6 +31,7 @@ public class BossStatus : MonoBehaviour
         {
             SecondStage = true;
         }
+
     }
 
     public void TakeDamage(int damage) {
@@ -41,6 +43,7 @@ public class BossStatus : MonoBehaviour
         if (_health - damage <= 0)
         {
             _health = 0;
+            Death();
             return;
         }
 
@@ -48,6 +51,14 @@ public class BossStatus : MonoBehaviour
         {
             _health -= damage;
         }
+    }
 
+    private void Death()
+    {
+        _animator.SetTrigger("Die");
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
+        gameObject.layer = 11;
+        GetComponent<BossAI>().enabled = false;
+        CanBeHit = false;
     }
 }

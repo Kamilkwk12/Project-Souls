@@ -129,7 +129,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4761211322023368441, guid: 06e7247ae8ceafd4682067a125134fff, type: 3}
   m_PrefabInstance: {fileID: 58691527035887247}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1490706302}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
@@ -149,7 +149,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 880229859683334227, guid: 61705f5c12576284eb11a1ef73dcae8b, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3035149767143566492, guid: 61705f5c12576284eb11a1ef73dcae8b, type: 3}
       propertyPath: m_BodyType
@@ -927,6 +927,11 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1490706302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6050996443448329564, guid: 06e7247ae8ceafd4682067a125134fff, type: 3}
+  m_PrefabInstance: {fileID: 58691527035887247}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1523912900
 GameObject:
   m_ObjectHideFlags: 0
@@ -1397,12 +1402,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 409419184376732923, guid: 211857b5bada8d64cbcc7220cf572879, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6057136015836505539, guid: 211857b5bada8d64cbcc7220cf572879, type: 3}
+      propertyPath: _healthBar
+      value: 
+      objectReference: {fileID: 1490706302}
+    - target: {fileID: 7351990506750236519, guid: 211857b5bada8d64cbcc7220cf572879, type: 3}
+      propertyPath: HealthBar
+      value: 
+      objectReference: {fileID: 108034983}
     - target: {fileID: 7351990506750236519, guid: 211857b5bada8d64cbcc7220cf572879, type: 3}
       propertyPath: _healthBar
       value: 
       objectReference: {fileID: 108034983}
+    - target: {fileID: 7351990506750236519, guid: 211857b5bada8d64cbcc7220cf572879, type: 3}
+      propertyPath: _maxHealth
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 8576751267298160615, guid: 211857b5bada8d64cbcc7220cf572879, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.884
