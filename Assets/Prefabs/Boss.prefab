@@ -192,8 +192,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1f37ac6723911544a68d889bc61c412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 300
-  _healthBar: {fileID: 0}
+  _maxHealth: 100
+  HealthBar: {fileID: 0}
   CanBeHit: 1
   SecondStage: 0
   AttackDamage: 25
@@ -210,6 +210,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _moveSpeed: 1
+  BossFightTrigger: {fileID: 0}
+  _healthBar: {fileID: 0}
+  _isFightTriggered: 0
   AttackDmg: 0
   _distanceToAttack: 80
   AttackNumber: 0

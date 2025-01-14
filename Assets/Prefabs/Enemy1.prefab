@@ -193,7 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 0
-  _maxHealth: 100
+  _maxHealth: 50
   AttackDamage: 10
   _healthbarValue: {fileID: 3078995473280035231}
   healthBar: {fileID: 5060946505392380934}

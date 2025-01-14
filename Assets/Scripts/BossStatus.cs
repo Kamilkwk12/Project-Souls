@@ -7,7 +7,7 @@ public class BossStatus : MonoBehaviour
     int _health;
     [SerializeField] int _maxHealth;
 
-    [SerializeField] Slider _healthBar;
+    [SerializeField] public Slider HealthBar;
 
     public bool CanBeHit = true;
     public bool SecondStage = false;
@@ -17,14 +17,14 @@ public class BossStatus : MonoBehaviour
     void Start()
     {
         _health = _maxHealth;
-        _healthBar.maxValue = _health;
-        _healthBar.value = _health;
+        HealthBar.maxValue = _health;
+        HealthBar.value = _health;
 
     }
 
     void Update()
     {
-        _healthBar.value = _health;
+        HealthBar.value = _health;
 
         if (_health < _maxHealth / 2)
         {

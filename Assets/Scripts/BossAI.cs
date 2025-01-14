@@ -1,6 +1,6 @@
 using System;
 using UnityEngine;
-using UnityEngine.UIElements;
+using System.Collections.Generic;
 
 public class BossAI : MonoBehaviour
 {
@@ -17,7 +17,10 @@ public class BossAI : MonoBehaviour
     float _distanceToPlayer;
     Vector3 _playerPosition;
     GameObject _player;
-
+    public BoxCollider2D BossFightTrigger;
+    [SerializeField] GameObject _healthBar;
+    public bool _isFightTriggered;
+    List<Collider2D> _fightTriggerColliders = new List<Collider2D>();
     public enum AttackType
     {
         None,
@@ -48,52 +51,70 @@ public class BossAI : MonoBehaviour
 
     void Update()
     {
-        _playerPosition = _player.transform.position;
-        _distanceToPlayer = Vector3.Distance(_playerPosition, transform.position) * 100;
 
-        _animator.SetFloat("Distance", _distanceToPlayer);
-        
-        CheckForPlayer();
-
-        if (_distanceToPlayer >= _distanceToAttack - 20 && _animator.GetBool("isAttacking") == false)
+        if (!_isFightTriggered)
         {
-            _animator.SetBool("isRunning", true);
-            if (transform.rotation.y == 0)
+            Physics2D.OverlapCollider(BossFightTrigger, _fightTriggerColliders);
+            foreach (Collider2D collider in _fightTriggerColliders)
             {
-                _rb.linearVelocity = new Vector2(_moveSpeed, 0);
+                if (collider.gameObject.CompareTag("Player"))
+                {
+                    _healthBar.SetActive(true);
+                    _isFightTriggered = true;
+                }
+            }
+        }
+
+        if (_isFightTriggered)
+        {
+
+
+            _playerPosition = _player.transform.position;
+            _distanceToPlayer = Vector3.Distance(_playerPosition, transform.position) * 100;
+
+            _animator.SetFloat("Distance", _distanceToPlayer);
+        
+            CheckForPlayer();
+
+            if (_distanceToPlayer >= _distanceToAttack - 20 && _animator.GetBool("isAttacking") == false && _isFightTriggered)
+            {
+                _animator.SetBool("isRunning", true);
+                if (transform.rotation.y == 0)
+                {
+                    _rb.linearVelocity = new Vector2(_moveSpeed, 0);
+                }
+                else
+                {
+                    _rb.linearVelocity = new Vector2(_moveSpeed * -1, 0);
+                }
+
             }
             else
             {
-                _rb.linearVelocity = new Vector2(_moveSpeed * -1, 0);
+                _rb.linearVelocity = new Vector2(0, 0);
+                _animator.SetBool("isRunning", false);
             }
 
-        }
-        else
-        {
-            _rb.linearVelocity = new Vector2(0, 0);
-            _animator.SetBool("isRunning", false);
-        }
-
-        if (_distanceToPlayer < _distanceToAttack && _animator.GetBool("isRunning") == false && _animator.GetBool("isAttacking") == false)
-        {
-
-            if (AttackNumber == 2 && _bossStatus.SecondStage == false)
+            if (_distanceToPlayer < _distanceToAttack && _animator.GetBool("isRunning") == false && _animator.GetBool("isAttacking") == false)
             {
-                AttackDmg = (int)AttackType.Combo;
-                _animator.SetTrigger("Combo1");
-                _animator.SetInteger("AttackType", 2);
-                AttackNumber = 0;
-                return;
+
+                if (AttackNumber == 2 && _bossStatus.SecondStage == false)
+                {
+                    AttackDmg = (int)AttackType.Combo;
+                    _animator.SetTrigger("Combo1");
+                    _animator.SetInteger("AttackType", 2);
+                    AttackNumber = 0;
+                    return;
+                }
+
+                AttackDmg = (int)AttackType.Attack;
+                _animator.SetTrigger("Attack");
+                _animator.SetInteger("AttackType", 1);
+
+
             }
-
-            AttackDmg = (int)AttackType.Attack;
-            _animator.SetTrigger("Attack");
-            _animator.SetInteger("AttackType", 1);
-
-
         }
     }
-
     private void CheckForPlayer()
     {
 
