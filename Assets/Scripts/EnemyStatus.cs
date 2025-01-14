@@ -4,7 +4,7 @@ using UnityEngine;
 public class EnemyStatus : MonoBehaviour
 {
 
-    [SerializeField] float _health;
+    [SerializeField] public float Health;
     [SerializeField] float _maxHealth = 100;
     Animator _animator;
 
@@ -16,15 +16,15 @@ public class EnemyStatus : MonoBehaviour
     public bool CanBeHit = true;
 
     void Start()
-    { 
-        _health = _maxHealth;
+    {
+        Health = _maxHealth;
         _animator = GetComponent<Animator>();
     }
 
     
     private void Update()
     {
-        _healthbarValue.localScale = new Vector3(_health / _maxHealth, 1, 1);
+        _healthbarValue.localScale = new Vector3(Health / _maxHealth, 1, 1);
 
         EnemyFlip();
 
@@ -37,16 +37,16 @@ public class EnemyStatus : MonoBehaviour
             return;
         }
 
-        if (_health - attackDmg <= 0)
+        if (Health - attackDmg <= 0)
         {
-            _health = 0;
+            Health = 0;
             _animator.SetTrigger("Die");
             return;
         }
 
-        if (_health - attackDmg > 0)
+        if (Health - attackDmg > 0)
         {
-            _health -= attackDmg;
+            Health -= attackDmg;
             _animator.SetTrigger("Hit");
         }
     }
@@ -54,7 +54,10 @@ public class EnemyStatus : MonoBehaviour
     public void Death()
     {
         healthBar.SetActive(false);
-        GetComponent<CapsuleCollider2D>().enabled = false;
+        GetComponent<CapsuleCollider2D>().direction = CapsuleDirection2D.Horizontal;
+        GetComponent<CapsuleCollider2D>().size = new Vector2(0.82f, 0.17f);
+        GetComponent<CapsuleCollider2D>().offset = new Vector2(-0.12f, 0.09f);
+        gameObject.layer = 11;
     }
 
     private void EnemyFlip()

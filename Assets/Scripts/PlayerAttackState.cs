@@ -11,13 +11,15 @@ public class PlayerAttackState : StateMachineBehaviour
     int _attackDmg;
     int _bossResist = 5;
 
+    
+
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         _circleCollider = GameObject.FindGameObjectWithTag("Player Attack").GetComponent<CircleCollider2D>();
         _attackDmg = animator.GetComponent<PlayerStatus>().AttackDamage;
         _allEnemies = GameObject.FindGameObjectsWithTag("Enemy");
-        _bossStatus = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossStatus>();
+        //_bossStatus = GameObject.FindGameObjectWithTag("Boss").GetComponent<BossStatus>();
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
@@ -47,7 +49,7 @@ public class PlayerAttackState : StateMachineBehaviour
         foreach (GameObject enemy in _allEnemies) {
             enemy.GetComponent<EnemyStatus>().CanBeHit = true;
         }
-        _bossStatus.CanBeHit = true;
+        //_bossStatus.CanBeHit = true;
         hitResults.Clear();
         animator.SetBool("isAttacking", false);
     }

@@ -44,21 +44,31 @@ public class PlayerController : MonoBehaviour
 
         _playerInput.actions["Jump"].performed += context =>
         {
-            PlayerStatus.TakeStamina(5);
+            if (_isGrounded) {
+                PlayerStatus.TakeStamina(5);
+            }
+
             Jump();
             PlayerStatus.DeactivateStaminaReset();
         };
 
         _playerInput.actions["Roll"].performed += context =>
         {
-            PlayerStatus.TakeStamina(10);
+            if (_animator.GetBool("isRolling") == false)
+            {
+                PlayerStatus.TakeStamina(10);
+            }
             RollTrigger();
             PlayerStatus.DeactivateStaminaReset();
         };
 
         _playerInput.actions["Light Attack"].performed += context =>
         {
-            PlayerStatus.TakeStamina(15);
+
+            if (_animator.GetBool("isAttacking") == false)
+            {
+                PlayerStatus.TakeStamina(15);
+            }
             PlayerStatus.DeactivateStaminaReset();
             _animator.SetTrigger("Attack");
             _animator.SetBool("isRunning", false);

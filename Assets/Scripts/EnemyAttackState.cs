@@ -12,30 +12,28 @@ public class EnemyAttackState : StateMachineBehaviour
     int _attackDmg;
     
     bool _wasPlayerHit = false;
-    // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         boxCollider = animator.gameObject.GetComponentInChildren<BoxCollider2D>();
+        Debug.Log(boxCollider);
         _playerStatus = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStatus>();
+        _attackDmg = animator.GetComponent<EnemyStatus>().AttackDamage;
+        animator.SetBool("isAttacking", true);
     }
 
-    // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        if (!_wasPlayerHit) { 
+        if (!_wasPlayerHit) {
             Physics2D.OverlapCollider(boxCollider, hitResults);
         }
 
-        if (hitResults.Count > 0)
+        foreach (Collider2D collision in hitResults)
         {
-            foreach (Collider2D collision in hitResults)
-            {
-                if (collision.gameObject.CompareTag("Player") == true && !_wasPlayerHit)
-                {
 
-                    _playerStatus.TakeDamage(_attackDmg);
-                    _wasPlayerHit = true;
-                }
+            if (collision.gameObject.CompareTag("Player") == true && !_wasPlayerHit)
+            {
+                _playerStatus.TakeDamage(_attackDmg);
+                _wasPlayerHit = true;
             }
         }
     }
@@ -43,5 +41,7 @@ public class EnemyAttackState : StateMachineBehaviour
     {
         hitResults.Clear();
         _wasPlayerHit = false;
+        animator.SetBool("isAttacking", false);
+
     }
 }
