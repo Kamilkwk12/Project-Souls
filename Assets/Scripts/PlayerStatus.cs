@@ -1,8 +1,10 @@
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class PlayerStatus : MonoBehaviour
 {
+    
 
     [SerializeField] int _maxHealth = 100;
     int _health;
@@ -58,6 +60,7 @@ public class PlayerStatus : MonoBehaviour
         if (_health - attackDmg <= 0)
         {
             _health = 0;
+            SceneManager.LoadScene("Main", LoadSceneMode.Single);
             return;
         }
 

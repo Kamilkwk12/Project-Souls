@@ -14,7 +14,7 @@ public class EnemyStatus : MonoBehaviour
     public GameObject healthBar;
 
     public bool CanBeHit = true;
-
+    public bool isDead = false;
     void Start()
     {
         Health = _maxHealth;
@@ -37,7 +37,7 @@ public class EnemyStatus : MonoBehaviour
             return;
         }
 
-        if (Health - attackDmg <= 0)
+        if (Health - attackDmg <= 0 && isDead == false)
         {
             Health = 0;
             _animator.SetTrigger("Die");
@@ -55,9 +55,9 @@ public class EnemyStatus : MonoBehaviour
     {
         healthBar.SetActive(false);
         GetComponent<CapsuleCollider2D>().direction = CapsuleDirection2D.Horizontal;
-        GetComponent<CapsuleCollider2D>().size = new Vector2(0.82f, 0.17f);
-        GetComponent<CapsuleCollider2D>().offset = new Vector2(-0.12f, 0.09f);
+        GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         gameObject.layer = 11;
+        isDead = true;
     }
 
     private void EnemyFlip()

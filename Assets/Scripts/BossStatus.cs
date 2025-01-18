@@ -11,6 +11,8 @@ public class BossStatus : MonoBehaviour
     [SerializeField] public Slider HealthBar;
 
     public bool CanBeHit = true;
+    public bool isDead = false;
+
     public bool SecondStage = false;
 
     public int AttackDamage = 25;
@@ -40,7 +42,7 @@ public class BossStatus : MonoBehaviour
             return;
         }
 
-        if (_health - damage <= 0)
+        if (_health - damage <= 0 && isDead == false)
         {
             _health = 0;
             Death();
@@ -59,6 +61,6 @@ public class BossStatus : MonoBehaviour
         GetComponent<Rigidbody2D>().bodyType = RigidbodyType2D.Kinematic;
         gameObject.layer = 11;
         GetComponent<BossAI>().enabled = false;
-        CanBeHit = false;
+        isDead = true;
     }
 }
